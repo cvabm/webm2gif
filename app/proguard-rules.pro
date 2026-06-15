@@ -1,0 +1,3 @@
+-keep class com.arthenica.ffmpegkit.** { *; }
+-keep class com.example.webm2gif.** { *; }
+-keepattributes *Annotation*

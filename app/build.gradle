@@ -1,0 +1,65 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.example.webm2gif'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.example.webm2gif"
+        minSdk 26
+        targetSdk 35
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    // ffmpeg-kit 的 .so 里已包含所有 ABI，按需裁剪
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'arm64-v8a', 'armeabi-v7a', 'x86_64'
+            universalApk true
+        }
+    }
+
+    packaging {
+        jniLibs {
+            // 避免重复 .so 冲突
+            pickFirsts += ['lib/arm64-v8a/libc++_shared.so',
+                           'lib/armeabi-v7a/libc++_shared.so',
+                           'lib/x86_64/libc++_shared.so']
+        }
+    }
+}
+
+dependencies {
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.8.3'
+    implementation 'androidx.activity:activity-ktx:1.9.1'
+
+    // ffmpeg-kit: min 套件（含 video 编解码，支持 webm/vp8/vp9 + gif）
+    // https://github.com/arthenica/ffmpeg-kit
+//    implementation 'com.arthenica:ffmpeg-kit-min:6.0-2'
+    implementation 'com.moizhassan.ffmpeg:ffmpeg-kit-16kb:6.1.1'
+}

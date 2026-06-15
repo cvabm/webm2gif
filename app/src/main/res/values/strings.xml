@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WebM转GIF</string>
+
+    <string-array name="repeat_options">
+        <item>无限循环</item>
+        <item>播放一次</item>
+        <item>循环3次</item>
+    </string-array>
+
+    <string-array name="quality_options">
+        <item>快速（64色）</item>
+        <item>标准（128色）</item>
+        <item>高质量（256色）</item>
+    </string-array>
+</resources>
